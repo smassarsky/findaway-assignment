@@ -58,7 +58,7 @@ def maze_solver(maze_file):
 
 		else:
 			# left first if end is left, else right first
-			order = ['down', 'left', 'right', 'up'] if pos[1] - end[1] > 0 else ['down', 'right', 'left', 'up']
+			order = ['up', 'right', 'left', 'down'] if pos[1] - end[1] > 0 else ['up', 'left', 'right', 'down']
 			for dir in order:
 				coords = coords_of[dir]()
 				if (coords != steps[-2] if len(steps) > 1 else True) and maze[coords[0]][coords[1]] == '_':
@@ -76,7 +76,7 @@ def maze_solver(maze_file):
 
 	# fills in original maze with letters and returns it as a string
 	for num, coordinate in enumerate(best_solution):
-		maze[coordinate[0]][coordinate[1]] = letters[num]
+		maze[coordinate[0]][coordinate[1]] = letters[num % 26]
 	maze = map(lambda row: ''.join(row), maze)
 	return '\n'.join(maze)
 
@@ -86,7 +86,6 @@ def min_steps_to_end(end, pos):
 class Fork:
 	def __init__(self, coords, next_steps):
 		self.coords = coords
-		next_steps.reverse()
 		self.next_steps = next_steps
 
 	def pop_last(self):
